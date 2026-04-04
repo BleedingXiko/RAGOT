@@ -33,6 +33,7 @@
  * | `createStateStore` | Proxy-tracked mutable state with subscriber notifications |
  * | `createSelector` | Memoized selector composition |
  * | `ragotRegistry` | Lifecycle-aware dependency injection |
+ * | `ragotModules` | Read-only proxy view of registry entries |
  * | `bus` | Global pub/sub for broadcast events |
  * | `createElement` | Create DOM elements with declarative options |
  * | `morphDOM` | In-place DOM patching with keyed reconciliation |
@@ -50,6 +51,7 @@
  * ```
  * core/selectors.js              → $, $$
  * core/bus.js                    → bus
+ * ragotRegistry.js               → ragotRegistry, ragotModules
  * core/stateStore.js             → createStateStore, createSelector
  * core/dom.js                    → createElement, morphDOM, batchAppend, append, prepend, insertBefore, remove
  * core/lifecycle.js              → Module, Component
@@ -64,6 +66,7 @@
 
 export { $, $$ } from './core/selectors.js';
 export { bus } from './core/bus.js';
+export { ragotRegistry, ragotModules } from './ragotRegistry.js';
 export { createStateStore, createSelector } from './core/stateStore.js';
 export { createElement, batchAppend, append, prepend, insertBefore, remove, morphDOM } from './core/dom.js';
 export { Module, Component } from './core/lifecycle.js';
@@ -97,6 +100,8 @@ export { createApp } from './core/bootstrap.js';
  * @property {import('./core/bus.js').EventBus} bus - Global event bus singleton
  * @property {typeof import('./core/stateStore.js').createStateStore} createStateStore
  * @property {typeof import('./core/stateStore.js').createSelector} createSelector
+ * @property {typeof import('./ragotRegistry.js').ragotRegistry} ragotRegistry
+ * @property {typeof import('./ragotRegistry.js').ragotModules} ragotModules
  * @property {typeof import('./core/dom.js').createElement} createElement
  * @property {typeof import('./core/dom.js').batchAppend} batchAppend
  * @property {typeof import('./core/dom.js').append} append
@@ -127,6 +132,7 @@ export { createApp } from './core/bootstrap.js';
 
 import { $, $$ } from './core/selectors.js';
 import { bus } from './core/bus.js';
+import { ragotRegistry, ragotModules } from './ragotRegistry.js';
 import { createStateStore, createSelector } from './core/stateStore.js';
 import { createElement, batchAppend, append, prepend, insertBefore, remove, morphDOM } from './core/dom.js';
 import { Module, Component } from './core/lifecycle.js';
@@ -152,6 +158,8 @@ const RAGOT = {
     $,
     $$,
     bus,
+    ragotRegistry,
+    ragotModules,
     createStateStore,
     createSelector,
     createElement,

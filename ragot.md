@@ -642,7 +642,8 @@ Lab coverage map:
 ## 19. Imports and Exports
 
 - `index.js` is the canonical public import surface.
-- It re-exports all public primitives from `RAGOT.js` and registry exports from `ragotRegistry.js`.
+- It re-exports the full public runtime from `RAGOT.js`.
+- `RAGOT.js` is the internal namespace implementation used by both ESM and browser builds.
 
 ---
 
@@ -864,8 +865,8 @@ When `owner` is provided to `provide`, registration auto-unregisters on owner cl
 | File | Purpose |
 |---|---|
 | `index.js` | public entry point |
-| `RAGOT.js` | primitive exports and default namespace |
-| `ragotRegistry.js` | registry singleton and proxy access |
+| `RAGOT.js` | internal namespace implementation behind the public entry |
+| `ragotRegistry.js` | registry singleton and proxy access used by the public runtime |
 | `core/lifecycle.js` | `Module` and `Component` implementations |
 | `core/stateStore.js` | `createStateStore` and `createSelector` |
 | `core/bus.js` | event bus implementation |

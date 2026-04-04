@@ -76,6 +76,8 @@ Or import the full namespace:
 import RAGOT from './ragot/index.js';
 ```
 
+`./ragot/index.js` is the public entry. The other top-level files in the repo are implementation details for packaging and bundling.
+
 If you want a classic script tag build instead, generate the bundle from the repo root:
 
 ```sh
@@ -105,7 +107,7 @@ For an ESM app:
 import RAGOT, { Component, createElement, ragotRegistry } from './ragot/dist/ragot.esm.js';
 ```
 
-The script-tag build keeps the same public runtime and also exposes `window.ragotRegistry` and `window.ragotModules`.
+The ESM default export and the script-tag `window.RAGOT` namespace expose the same public runtime, including `ragotRegistry` and `ragotModules`. The script-tag build also exposes `window.ragotRegistry` and `window.ragotModules` directly.
 
 If you do not want to build locally, download the prebuilt browser files from the repository's GitHub Releases. Each published release can attach:
 
@@ -125,6 +127,7 @@ If you do not want to build locally, download the prebuilt browser files from th
 | `createStateStore` | Proxy-tracked mutable state with subscriber notifications |
 | `createSelector` | Memoized selector composition |
 | `ragotRegistry` | Lifecycle-aware dependency injection |
+| `ragotModules` | Read-only proxy access to registry entries |
 | `bus` | Global pub/sub for broadcast events |
 | `createElement` | Declarative DOM element creation |
 | `morphDOM` | In-place DOM patching with keyed reconciliation |

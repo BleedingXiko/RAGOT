@@ -14,9 +14,9 @@
 
 /**
  * RAGOT Public Entry Point
- * Import framework primitives and registry from this module.
+ * Import all public RAGOT APIs from this module.
+ * Other top-level files are implementation details.
  */
 
 export * from './RAGOT.js';
-export * from './ragotRegistry.js';
 export { default } from './RAGOT.js';
