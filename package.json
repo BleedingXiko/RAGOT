@@ -1,0 +1,13 @@
+{
+  "name": "ragot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RAGOT local bundle tooling",
+  "scripts": {
+    "build": "node ./scripts/build-ragot-bundle.mjs",
+    "build:bundle": "node ./scripts/build-ragot-bundle.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

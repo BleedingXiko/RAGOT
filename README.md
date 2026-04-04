@@ -4,6 +4,8 @@
 
 No build step. No dependencies. No virtual DOM. Just ES modules and explicit ownership of your DOM and side effects.
 
+If you want distributable browser builds, the repo also includes an optional local bundle step that generates global-script and ESM builds in `dist/`.
+
 ---
 
 ## Why RAGOT
@@ -73,6 +75,44 @@ Or import the full namespace:
 ```js
 import RAGOT from './ragot/index.js';
 ```
+
+If you want a classic script tag build instead, generate the bundle from the repo root:
+
+```sh
+npm install
+npm run build
+```
+
+That emits:
+
+- `./dist/ragot.bundle.js`
+- `./dist/ragot.min.js`
+- `./dist/ragot.esm.js`
+- `./dist/ragot.esm.min.js`
+
+For a classic script tag build:
+
+```html
+<script src="./ragot/dist/ragot.min.js"></script>
+<script>
+  const { Component, createElement, bus, ragotRegistry } = window.RAGOT;
+</script>
+```
+
+For an ESM app:
+
+```js
+import RAGOT, { Component, createElement, ragotRegistry } from './ragot/dist/ragot.esm.js';
+```
+
+The script-tag build keeps the same public runtime and also exposes `window.ragotRegistry` and `window.ragotModules`.
+
+If you do not want to build locally, download the prebuilt browser files from the repository's GitHub Releases. Each published release can attach:
+
+- `ragot.bundle.js`
+- `ragot.min.js`
+- `ragot.esm.js`
+- `ragot.esm.min.js`
 
 ---
 

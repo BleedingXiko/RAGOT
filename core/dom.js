@@ -221,7 +221,11 @@ function _shouldStrictFailMixedKeys() {
         }
     } catch (e) { /* ignore */ }
     try {
-        if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production') {
+        const globalProcess = typeof globalThis !== 'undefined' ? globalThis.process : undefined;
+        const nodeEnv = globalProcess && globalProcess.env
+            ? globalProcess.env['NODE' + '_ENV']
+            : undefined;
+        if (nodeEnv === 'production') {
             return false;
         }
     } catch (e) { /* ignore */ }

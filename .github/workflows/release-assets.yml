@@ -1,0 +1,56 @@
+name: Build Release Assets
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-assets-${{ github.event.release.id || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build bundles
+        run: npm run build
+
+      - name: Upload bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ragot-browser-bundles
+          if-no-files-found: error
+          path: |
+            dist/ragot.bundle.js
+            dist/ragot.min.js
+            dist/ragot.esm.js
+            dist/ragot.esm.min.js
+
+      - name: Upload release assets
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/ragot.bundle.js
+            dist/ragot.min.js
+            dist/ragot.esm.js
+            dist/ragot.esm.min.js
+          fail_on_unmatched_files: true
+          overwrite_files: true
