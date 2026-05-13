@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "description": "RAGOT local bundle tooling",
+  "types": "index.d.ts",
   "scripts": {
     "build": "node ./scripts/build-ragot-bundle.mjs",
-    "build:bundle": "node ./scripts/build-ragot-bundle.mjs"
+    "build:bundle": "node ./scripts/build-ragot-bundle.mjs",
+    "typecheck": "npm run build && tsc -p tsconfig.types.json"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
   }
 }

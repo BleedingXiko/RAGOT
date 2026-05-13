@@ -32,6 +32,9 @@ jobs:
       - name: Build bundles
         run: npm run build
 
+      - name: Typecheck declarations
+        run: npm run typecheck
+
       - name: Upload bundle artifact
         uses: actions/upload-artifact@v4
         with:
@@ -39,9 +42,13 @@ jobs:
           if-no-files-found: error
           path: |
             dist/ragot.bundle.js
+            dist/ragot.bundle.d.ts
             dist/ragot.min.js
+            dist/ragot.min.d.ts
             dist/ragot.esm.js
+            dist/ragot.esm.d.ts
             dist/ragot.esm.min.js
+            dist/ragot.esm.min.d.ts
 
       - name: Upload release assets
         if: github.event_name == 'release'
@@ -49,8 +56,12 @@ jobs:
         with:
           files: |
             dist/ragot.bundle.js
+            dist/ragot.bundle.d.ts
             dist/ragot.min.js
+            dist/ragot.min.d.ts
             dist/ragot.esm.js
+            dist/ragot.esm.d.ts
             dist/ragot.esm.min.js
+            dist/ragot.esm.min.d.ts
           fail_on_unmatched_files: true
           overwrite_files: true

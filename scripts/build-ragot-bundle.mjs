@@ -1,5 +1,5 @@
 import { build } from 'esbuild';
-import { mkdir } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.join(rootDir, 'dist');
 const entryFile = path.join(rootDir, 'scripts', 'build-ragot-browser-entry.js');
+const esmTypesFile = path.join(rootDir, 'RAGOT.d.ts');
+const globalTypesFile = path.join(rootDir, 'RAGOT.global.d.ts');
 
 const banner = `/*!
  * RAGOT
@@ -64,7 +66,25 @@ for (const output of outputs) {
     });
 }
 
+const esmTypeOutputs = ['ragot.esm.d.ts', 'ragot.esm.min.d.ts'];
+const globalTypeOutputs = ['ragot.bundle.d.ts', 'ragot.min.d.ts'];
+
+for (const fileName of esmTypeOutputs) {
+    await copyFile(esmTypesFile, path.join(distDir, fileName));
+}
+
+const globalTypes = await readFile(globalTypesFile, 'utf8');
+const distGlobalTypes = globalTypes.replaceAll("'./RAGOT.js'", "'./ragot.esm.js'");
+for (const fileName of globalTypeOutputs) {
+    await writeFile(path.join(distDir, fileName), distGlobalTypes);
+}
+
+const typeOutputs = [...esmTypeOutputs, ...globalTypeOutputs];
+
 console.log('Built browser bundles:');
 for (const output of outputs) {
     console.log(`- ${path.relative(rootDir, output.outfile)}`);
+}
+for (const fileName of typeOutputs) {
+    console.log(`- ${path.join('dist', fileName)}`);
 }

@@ -2,7 +2,7 @@
 
 **Rapid Assertions Generalized On Time** — a lifecycle-first frontend framework for vanilla JS.
 
-No build step. No dependencies. No virtual DOM. Just ES modules and explicit ownership of your DOM and side effects.
+No build step. No dependencies. No virtual DOM. Just ES modules, type-aware editor hints, and explicit ownership of your DOM and side effects.
 
 If you want distributable browser builds, the repo also includes an optional local bundle step that generates global-script and ESM builds in `dist/`.
 
@@ -64,7 +64,7 @@ npx serve .
 
 ## Use in your project
 
-Copy the `ragot/` folder into your project and import from the entry point:
+During development, clone or copy the `ragot/` folder into your project and import from the entry point. The repo ships declaration files next to the source entry, so TypeScript-aware editors can provide autocomplete and method hints while you write plain JavaScript:
 
 ```js
 import { Module, Component, createElement, bus } from './ragot/index.js';
@@ -88,9 +88,19 @@ npm run build
 That emits:
 
 - `./dist/ragot.bundle.js`
+- `./dist/ragot.bundle.d.ts`
 - `./dist/ragot.min.js`
+- `./dist/ragot.min.d.ts`
 - `./dist/ragot.esm.js`
+- `./dist/ragot.esm.d.ts`
 - `./dist/ragot.esm.min.js`
+- `./dist/ragot.esm.min.d.ts`
+
+For production ESM, you can swap your import to the minified runtime and keep autocomplete through the adjacent declaration file:
+
+```js
+import RAGOT, { Component, createElement, ragotRegistry } from './ragot/dist/ragot.esm.min.js';
+```
 
 For a classic script tag build:
 
@@ -100,6 +110,8 @@ For a classic script tag build:
   const { Component, createElement, bus, ragotRegistry } = window.RAGOT;
 </script>
 ```
+
+Classic script globals do not let editors infer types from the HTML tag alone. Keep `ragot.min.d.ts` next to `ragot.min.js` or include it in your project so `window.RAGOT`, `window.ragotRegistry`, and `window.ragotModules` get type hints.
 
 For an ESM app:
 
@@ -112,9 +124,13 @@ The ESM default export and the script-tag `window.RAGOT` namespace expose the sa
 If you do not want to build locally, download the prebuilt browser files from the repository's GitHub Releases. Each published release can attach:
 
 - `ragot.bundle.js`
+- `ragot.bundle.d.ts`
 - `ragot.min.js`
+- `ragot.min.d.ts`
 - `ragot.esm.js`
+- `ragot.esm.d.ts`
 - `ragot.esm.min.js`
+- `ragot.esm.min.d.ts`
 
 ---
 
